@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
+import { DataStore } from "../context/DataProvider";
 
-const Table = ({ emailData, handleCheckOut }) => {
+const Table = () => {
+	const { emailResult, emailAddress } = useContext(DataStore);
+	console.log(emailResult, emailAddress);
 	return (
 		<>
 			<div className="overflow-x-auto">
@@ -18,8 +21,8 @@ const Table = ({ emailData, handleCheckOut }) => {
 						</tr>
 					</thead>
 					<tbody>
-						{emailData.length > 0 ? (
-							emailData.map((email) => (
+						{emailResult.length > 0 ? (
+							emailResult.map((email) => (
 								<tr key={email.id} className="hover">
 									<th>{email.id}</th>
 									<td>{email.email}</td>

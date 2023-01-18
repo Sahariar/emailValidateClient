@@ -1,71 +1,16 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { DataStore } from "../context/DataProvider";
 
-const From = ({ setEmailData, emailData }) => {
-	const [countId, setCountId] = useState(1);
-	const validEmailSyntax = (inputEmail) => {
-		const validRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
-		if (inputEmail?.match(validRegex)) {
-			return "Yes";
-		} else {
-			return "No";
-		}
-	};
-
-	const validateMxRecord = (inputEmail) => {
-		let result = "valid";
-		axios
-			.get(`http://localhost:4000/mx/${inputEmail}`, {
-				responseType: "json",
-			})
-			.then(function (response) {
-				// handle success
-				console.log(response.data.isValid);
-
-				if (response.data.isValid === "valid") {
-					return (result = response.data.isValid);
-				} else {
-					return (result = response.data.isValid);
-				}
-			})
-			.catch(function (error) {
-				// handle error
-				console.log(error);
-			})
-			.then(function () {
-				// always executed
-			});
-	};
+const From = () => {
+	const { setEmailAddress } = useContext(DataStore);
 
 	const handleEmailSubmission = (event) => {
 		event.preventDefault();
 		const form = event.target;
 		const emailAddress = form.emailAddress.value;
-		const isValidEmail = validEmailSyntax(emailAddress);
-		const emailMxRecords = validateMxRecord(emailAddress);
-		console.log(
-			emailAddress,
-			"isValidate",
-			isValidEmail,
-			"mxRecords",
-			emailMxRecords
-		);
-
-		const resultEntry = {
-			id: countId,
-			email: emailAddress,
-			validSyntax: isValidEmail,
-			mxRecords: emailMxRecords,
-			smtpExistence: "",
-			supportPorts: "",
-			disposableMail: "",
-			roleBasedMail: "",
-		};
-		setEmailData([...emailData, resultEntry]);
-		setCountId((countId) => countId + 1);
+		setEmailAddress(emailAddress);
 	};
-
 	return (
 		<>
 			<section className="p-6 mx-auto w-10/12">
