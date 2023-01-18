@@ -42,6 +42,7 @@ const DataProvider = ({ children }) => {
 		emailAddress,
 		setEmailAddress,
 		emailResult,
+		setEmailResult,
 	};
 
 	return <DataStore.Provider value={dataValues}>{children}</DataStore.Provider>;
